@@ -1,0 +1,6 @@
+customer_id,segment,monthly_spend,churned
+101,Starter,19.50,no
+102,Pro,74.25,no
+103,Starter,22.00,yes
+104,Business,135.75,no
+105,Pro,,yes

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Explore a dataset through conversation." />
+    <title>Data Science AI Agent</title>
+    <link rel="stylesheet" href="/static/styles.css?v=3" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <header class="brand">
+          <div class="brand-copy">
+            <p class="eyebrow">GOOGLE ADK SHOWCASE</p>
+            <div class="brand-title-row">
+              <h1>Data Science AI Agent</h1>
+              <details class="about-popover">
+                <summary aria-label="About this application" title="About this application">i</summary>
+                <div class="about-panel">
+                  <strong>About this agent</strong>
+                  <p>Built with Google Agent Development Kit (ADK) and powered by Gemini 3.8 Flash.</p>
+                  <p>A coordinator routes work to a specialist analyst agent using curated, safe data-science tools.</p>
+                </div>
+              </details>
+            </div>
+            <p class="brand-subtitle">Built with Google ADK · Gemini 3.8 Flash</p>
+          </div>
+        </header>
+
+        <section class="side-section">
+          <div class="section-heading">
+            <span>Dataset</span>
+            <span id="dataset-status" class="status-dot" title="No dataset loaded"></span>
+          </div>
+          <label class="upload-zone" for="csv-input">
+            <span class="upload-icon">↑</span>
+            <strong>Upload a CSV</strong>
+            <small>UTF-8 · up to 25 MB</small>
+            <input id="csv-input" class="file-input" type="file" accept=".csv,text/csv" />
+          </label>
+          <div class="or-rule"><span>or try a sample</span></div>
+          <div id="sample-list" class="sample-list" aria-live="polite"></div>
+        </section>
+
+        <section id="dataset-card" class="dataset-card is-hidden" aria-live="polite">
+          <div class="dataset-card-head">
+            <div>
+              <p class="eyebrow">ACTIVE DATASET</p>
+              <h2 id="dataset-name">—</h2>
+            </div>
+            <button id="reset-button" class="icon-button" title="Restore original dataset">↺</button>
+          </div>
+          <div class="dataset-stats">
+            <div><strong id="row-count">0</strong><span>rows</span></div>
+            <div><strong id="column-count">0</strong><span>columns</span></div>
+          </div>
+          <div id="column-chips" class="column-chips"></div>
+        </section>
+
+        <footer class="sidebar-footer">
+          <span id="connection-dot" class="connection-dot"></span>
+          <span id="connection-label">Connecting</span>
+          <span class="footer-separator">·</span>
+          <span id="model-label">Vertex AI</span>
+        </footer>
+      </aside>
+
+      <main class="workspace">
+        <header class="workspace-header">
+          <div>
+            <p class="eyebrow">CONVERSATIONAL ANALYSIS</p>
+            <h2>Ask the data, not the dashboard.</h2>
+          </div>
+          <button id="clear-button" class="text-button">New session</button>
+        </header>
+
+        <section id="conversation" class="conversation" aria-live="polite">
+          <div id="welcome" class="welcome">
+            <div class="welcome-symbol">✦</div>
+            <h2>Bring a dataset. Leave with a finding.</h2>
+            <p>
+              Upload a CSV or choose a sample. I can inspect quality, explore relationships,
+              create charts, and build a careful baseline model.
+            </p>
+            <div class="prompt-grid">
+              <button class="prompt-card" data-prompt="Give me a concise overview of this dataset.">
+                <span>01</span><strong>Start with the shape</strong><small>Profile columns and quality</small>
+              </button>
+              <button class="prompt-card" data-prompt="Find the most important relationships in this dataset and visualize them.">
+                <span>02</span><strong>Find relationships</strong><small>Explore patterns with evidence</small>
+              </button>
+              <button class="prompt-card" data-prompt="Check this dataset for missing values, duplicates, and potential outliers.">
+                <span>03</span><strong>Audit data quality</strong><small>Surface issues before analysis</small>
+              </button>
+            </div>
+          </div>
+          <div id="messages"></div>
+        </section>
+
+        <footer class="composer-wrap">
+          <form id="composer" class="composer">
+            <textarea
+              id="message-input"
+              rows="1"
+              maxlength="4000"
+              placeholder="Load a dataset to begin…"
+              disabled
+            ></textarea>
+            <button id="cancel-button" type="button" class="cancel-button is-hidden">Stop</button>
+            <button id="send-button" type="submit" class="send-button" disabled aria-label="Send message">→</button>
+          </form>
+          <p class="composer-note">Findings are exploratory. Association does not establish causation.</p>
+        </footer>
+      </main>
+    </div>
+    <div id="toast" class="toast" role="status"></div>
+    <script src="/static/app.js?v=3" defer></script>
+  </body>
+</html>

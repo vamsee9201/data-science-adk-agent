@@ -1,0 +1,36 @@
+[project]
+name = "data-science-adk-agent"
+version = "0.1.0"
+description = "A conversational, local-first data science workspace powered by Google ADK."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115,<1",
+    "google-adk[gcp]>=2,<3",
+    "google-genai>=1.0",
+    "google-auth>=2.0",
+    "matplotlib>=3.9",
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "python-multipart>=0.0.18",
+    "scikit-learn>=1.5",
+    "scipy>=1.14",
+    "seaborn>=0.13",
+    "uvicorn[standard]>=0.32",
+]
+
+[project.optional-dependencies]
+dev = [
+    "httpx>=0.27",
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["."]
+markers = ["vertex: opt-in test that calls Vertex AI"]
+
+[tool.ruff]
+line-length = 100

@@ -278,7 +278,11 @@ analyst_agent = Agent(
     description="Perform broad, multi-step exploratory analysis and guarded baseline modeling.",
     model=Gemini(
         model=settings.google_model,
-        retry_options=types.HttpRetryOptions(attempts=3),
+        retry_options=types.HttpRetryOptions(attempts=2),
+    ),
+    generate_content_config=types.GenerateContentConfig(
+        max_output_tokens=settings.max_model_output_tokens,
+        temperature=0.2,
     ),
     instruction="""
 You are the embedded data analyst for a conversational data-science application.
@@ -300,7 +304,11 @@ coordinator_agent = Agent(
     name="coordinator_agent",
     model=Gemini(
         model=settings.google_model,
-        retry_options=types.HttpRetryOptions(attempts=3),
+        retry_options=types.HttpRetryOptions(attempts=2),
+    ),
+    generate_content_config=types.GenerateContentConfig(
+        max_output_tokens=settings.max_model_output_tokens,
+        temperature=0.2,
     ),
     instruction="""
 You coordinate a conversational data-science workspace. Use direct tools for small factual
@@ -353,10 +361,10 @@ class AgentRuntime:
 
     async def stream(self, workspace_session_id: str, message: str) -> AsyncIterator[dict]:
         workspace = registry.get(workspace_session_id)
-        if not settings.credentials_path.is_file():
+        if not settings.vertex_configured:
             yield {
                 "event": "error",
-                "message": "Vertex credentials are missing. Add the configured service-account file and restart.",
+                "message": "Vertex credentials are unavailable. Configure local credentials or a Cloud Run service identity.",
             }
             return
         content = types.Content(role="user", parts=[types.Part(text=message)])

@@ -139,3 +139,11 @@ def test_static_app_is_served(client: TestClient) -> None:
     assert response.status_code == 200
     assert "Data Science AI Agent" in response.text
     assert "Built with Google Agent Development Kit" in response.text
+    assert response.headers["x-frame-options"] == "DENY"
+    assert "frame-ancestors 'none'" in response.headers["content-security-policy"]
+
+
+def test_api_responses_are_not_cached(client: TestClient) -> None:
+    response = client.get("/api/health")
+    assert response.status_code == 200
+    assert response.headers["cache-control"] == "no-store"

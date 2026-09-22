@@ -44,7 +44,12 @@ def records(dataframe: pd.DataFrame, limit: int = 20) -> list[dict[str, Any]]:
     ]
 
 
-def parse_csv(content: bytes, max_bytes: int) -> pd.DataFrame:
+def parse_csv(
+    content: bytes,
+    max_bytes: int,
+    max_rows: int | None = None,
+    max_columns: int | None = None,
+) -> pd.DataFrame:
     if not content:
         raise DatasetValidationError("The uploaded CSV is empty.")
     if len(content) > max_bytes:
@@ -70,15 +75,23 @@ def parse_csv(content: bytes, max_bytes: int) -> pd.DataFrame:
     duplicates = sorted({name for name in normalized if normalized.count(name) > 1})
     if duplicates:
         raise DatasetValidationError(f"Duplicate column names are not allowed: {', '.join(duplicates)}")
+    if max_columns is not None and len(normalized) > max_columns:
+        raise DatasetValidationError(
+            f"The CSV has {len(normalized):,} columns; the limit is {max_columns:,}."
+        )
 
     try:
-        dataframe = pd.read_csv(io.StringIO(text))
+        dataframe = pd.read_csv(io.StringIO(text), nrows=None if max_rows is None else max_rows + 1)
     except (pd.errors.ParserError, pd.errors.EmptyDataError, UnicodeError) as exc:
         raise DatasetValidationError(f"The CSV could not be parsed: {exc}") from exc
     if dataframe.columns.empty:
         raise DatasetValidationError("The CSV must contain at least one column.")
     if dataframe.empty:
         raise DatasetValidationError("The CSV contains column names but no data rows.")
+    if max_rows is not None and len(dataframe) > max_rows:
+        raise DatasetValidationError(
+            f"The CSV has more than {max_rows:,} rows, which is the processing limit."
+        )
     dataframe.columns = normalized
     return dataframe
 

@@ -43,6 +43,12 @@ from app.sessions import TransformationProposal, WorkspaceSession
 
 RANDOM_SEED = 42
 MODEL_ROW_LIMIT = 50_000
+CHART_BACKGROUND = "#18191b"
+CHART_PANEL = "#1c1d1f"
+CHART_TEXT = "#e7e9ee"
+CHART_MUTED = "#a0a4ad"
+CHART_GRID = "#34363a"
+CHART_ACCENT = "#4f8cff"
 
 
 def _column(dataframe: pd.DataFrame, name: str) -> pd.Series:
@@ -254,11 +260,31 @@ def statistical_test(dataframe: pd.DataFrame, column_a: str, column_b: str) -> d
     }
 
 
+def _style_dark_figure(figure: plt.Figure) -> None:
+    figure.patch.set_facecolor(CHART_BACKGROUND)
+    for axis in figure.axes:
+        axis.set_facecolor(CHART_PANEL)
+        axis.tick_params(colors=CHART_MUTED, labelsize=9)
+        axis.xaxis.label.set_color(CHART_TEXT)
+        axis.yaxis.label.set_color(CHART_TEXT)
+        axis.title.set_color(CHART_TEXT)
+        for spine in axis.spines.values():
+            spine.set_color(CHART_GRID)
+        axis.grid(color=CHART_GRID, linewidth=.7, alpha=.42)
+        legend = axis.get_legend()
+        if legend is not None:
+            legend.get_frame().set_facecolor(CHART_PANEL)
+            legend.get_frame().set_edgecolor(CHART_GRID)
+            for text in legend.get_texts():
+                text.set_color(CHART_TEXT)
+
+
 def _save_figure(session: WorkspaceSession, figure: plt.Figure, title: str) -> dict:
     filename = f"chart-{uuid.uuid4().hex}.png"
     path = session.directory / filename
+    _style_dark_figure(figure)
     figure.tight_layout()
-    figure.savefig(path, dpi=150, bbox_inches="tight")
+    figure.savefig(path, dpi=150, bbox_inches="tight", facecolor=CHART_BACKGROUND)
     plt.close(figure)
     artifact_id = session.add_artifact(path)
     return {
@@ -286,36 +312,36 @@ def create_chart(
         if len(numeric.columns) < 2:
             plt.close(figure)
             raise ValueError("At least two numeric columns are required for a heatmap.")
-        sns.heatmap(numeric.corr(), cmap="vlag", center=0, ax=axis)
+        sns.heatmap(numeric.corr(), cmap="icefire", center=0, ax=axis)
     elif chart_type == "histogram":
         if not x:
             raise ValueError("A numeric x column is required for a histogram.")
-        sns.histplot(data=dataframe, x=x, kde=True, ax=axis)
+        sns.histplot(data=dataframe, x=x, kde=True, color=CHART_ACCENT, ax=axis)
     elif chart_type == "bar":
         if not x:
             raise ValueError("An x column is required for a bar chart.")
         if y:
-            sns.barplot(data=dataframe, x=x, y=y, errorbar=None, ax=axis)
+            sns.barplot(data=dataframe, x=x, y=y, errorbar=None, color=CHART_ACCENT, ax=axis)
         else:
             counts = dataframe[x].fillna("(missing)").astype(str).value_counts().head(20)
-            sns.barplot(x=counts.index, y=counts.values, ax=axis)
+            sns.barplot(x=counts.index, y=counts.values, color=CHART_ACCENT, ax=axis)
             axis.set_ylabel("Count")
         axis.tick_params(axis="x", rotation=35)
     elif chart_type == "line":
         if not x or not y:
             raise ValueError("Both x and y columns are required for a line chart.")
-        sns.lineplot(data=dataframe.sort_values(x), x=x, y=y, errorbar=None, ax=axis)
+        sns.lineplot(data=dataframe.sort_values(x), x=x, y=y, errorbar=None, color=CHART_ACCENT, ax=axis)
     elif chart_type == "scatter":
         if not x or not y:
             raise ValueError("Both x and y columns are required for a scatter plot.")
-        sns.scatterplot(data=dataframe, x=x, y=y, ax=axis)
+        sns.scatterplot(data=dataframe, x=x, y=y, color=CHART_ACCENT, ax=axis)
     elif chart_type == "box":
         if not y:
             y = x
             x = None
         if not y:
             raise ValueError("A numeric y column is required for a box plot.")
-        sns.boxplot(data=dataframe, x=x, y=y, ax=axis)
+        sns.boxplot(data=dataframe, x=x, y=y, color=CHART_ACCENT, ax=axis)
         if x:
             axis.tick_params(axis="x", rotation=35)
     axis.set_title(chart_title)
@@ -581,16 +607,23 @@ def train_baseline_model(session: WorkspaceSession, target: str) -> dict:
         labels_for_plot = sorted(pd.Series(y_test).unique(), key=str)
         matrix = confusion_matrix(y_test, predictions[best_name], labels=labels_for_plot)
         figure, axis = plt.subplots(figsize=(6, 5))
-        sns.heatmap(matrix, annot=True, fmt="d", cmap="Blues", ax=axis)
+        sns.heatmap(
+            matrix,
+            annot=True,
+            fmt="d",
+            cmap="mako",
+            annot_kws={"color": CHART_TEXT},
+            ax=axis,
+        )
         axis.set_title(f"{best_name.replace('_', ' ').title()} confusion matrix")
         axis.set_xlabel("Predicted")
         axis.set_ylabel("Actual")
     else:
         figure, axis = plt.subplots(figsize=(6, 5))
-        axis.scatter(y_test, predictions[best_name], alpha=0.65)
+        axis.scatter(y_test, predictions[best_name], alpha=0.72, color=CHART_ACCENT)
         low = min(float(np.min(y_test)), float(np.min(predictions[best_name])))
         high = max(float(np.max(y_test)), float(np.max(predictions[best_name])))
-        axis.plot([low, high], [low, high], linestyle="--", color="#ef8354")
+        axis.plot([low, high], [low, high], linestyle="--", color="#42b883")
         axis.set_title(f"{best_name.replace('_', ' ').title()}: actual vs predicted")
         axis.set_xlabel("Actual")
         axis.set_ylabel("Predicted")

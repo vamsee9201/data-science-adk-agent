@@ -11,8 +11,14 @@ from typing import Any
 
 import pandas as pd
 
+from app.config import settings
+
 
 class SessionNotFound(KeyError):
+    pass
+
+
+class SessionCapacityExceeded(RuntimeError):
     pass
 
 
@@ -39,6 +45,7 @@ class WorkspaceSession:
     model_results: list[dict] = field(default_factory=list)
     busy: bool = False
     cancel_requested: bool = False
+    agent_turns: int = 0
     event_sink: Any = None
 
     def touch(self) -> None:
@@ -69,13 +76,19 @@ class WorkspaceSession:
 
 
 class SessionRegistry:
-    def __init__(self, ttl_seconds: int = 3600) -> None:
+    def __init__(self, ttl_seconds: int = 3600, max_sessions: int = 25) -> None:
         self.ttl_seconds = ttl_seconds
+        self.max_sessions = max_sessions
         self._sessions: dict[str, WorkspaceSession] = {}
         self._lock = threading.RLock()
 
     def create(self) -> WorkspaceSession:
         with self._lock:
+            self._cleanup_expired_unlocked(time.time())
+            if len(self._sessions) >= self.max_sessions:
+                raise SessionCapacityExceeded(
+                    "The workspace is at capacity. Please retry after an inactive session expires."
+                )
             session_id = str(uuid.uuid4())
             directory = Path(tempfile.mkdtemp(prefix=f"ds-agent-{session_id[:8]}-"))
             session = WorkspaceSession(id=session_id, directory=directory)
@@ -108,14 +121,17 @@ class SessionRegistry:
     def cleanup_expired(self) -> int:
         now = time.time()
         with self._lock:
-            expired = [
+            return self._cleanup_expired_unlocked(now)
+
+    def _cleanup_expired_unlocked(self, now: float) -> int:
+        expired = [
                 session_id
                 for session_id, session in self._sessions.items()
                 if now - session.touched_at > self.ttl_seconds
             ]
-            for session_id in expired:
-                self._delete_unlocked(session_id)
-            return len(expired)
+        for session_id in expired:
+            self._delete_unlocked(session_id)
+        return len(expired)
 
     def close(self) -> None:
         with self._lock:
@@ -123,4 +139,4 @@ class SessionRegistry:
                 self._delete_unlocked(session_id)
 
 
-registry = SessionRegistry()
+registry = SessionRegistry(settings.session_ttl_seconds, settings.max_active_sessions)

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import time
 from types import SimpleNamespace
 
 import numpy as np
@@ -57,6 +58,44 @@ def test_analyst_plan_guard_blocks_tools_until_plan() -> None:
 def test_parse_csv_rejects_invalid_files(content: bytes, message: str) -> None:
     with pytest.raises(DatasetValidationError, match=message):
         parse_csv(content, 1_000)
+
+
+def test_parse_csv_enforces_processing_dimensions() -> None:
+    with pytest.raises(DatasetValidationError, match="columns; the limit is 2"):
+        parse_csv(b"a,b,c\n1,2,3\n", 1_000, max_columns=2)
+    with pytest.raises(DatasetValidationError, match="more than 2 rows"):
+        parse_csv(b"a\n1\n2\n3\n", 1_000, max_rows=2)
+
+
+def test_usage_guard_limits_and_releases() -> None:
+    from app.guardrails import UsageGuard, UsageLimitExceeded
+
+    local_registry = SessionRegistry(max_sessions=2)
+    first = local_registry.create()
+    second = local_registry.create()
+    guard = UsageGuard(hourly_limit=2, daily_limit=3, concurrent_limit=1, per_session_limit=1)
+    guard.acquire(first)
+    with pytest.raises(UsageLimitExceeded, match="busy"):
+        guard.acquire(second)
+    guard.release()
+    with pytest.raises(UsageLimitExceeded, match="session"):
+        guard.acquire(first)
+    guard.acquire(second)
+    guard.release()
+    local_registry.close()
+
+
+def test_session_registry_capacity_and_expiry() -> None:
+    from app.sessions import SessionCapacityExceeded
+
+    local_registry = SessionRegistry(ttl_seconds=1, max_sessions=1)
+    first = local_registry.create()
+    with pytest.raises(SessionCapacityExceeded, match="capacity"):
+        local_registry.create()
+    first.touched_at = time.time() - 2
+    replacement = local_registry.create()
+    assert replacement.id != first.id
+    local_registry.close()
 
 
 def test_aggregate_correlation_and_statistics() -> None:

@@ -9,29 +9,100 @@ The application deliberately exposes curated analysis tools instead of arbitrary
 shell execution. It is designed as a focused portfolio project that demonstrates agent delegation,
 tool use, streaming progress, multi-turn context, and guarded model access.
 
-## What it looks like
+## Product walkthrough
 
-The browser interface keeps the active dataset visible while analysis happens in the conversation.
-During a turn, it shows the analysis plan and live tool names—not raw tool responses or hidden model
-reasoning. Tables, charts, metrics, warnings, and confirmation controls appear with the final answer.
+These screenshots come from one real browser session using the included Iris dataset. When an
+answer continues beyond one screen, the images are kept together and ordered from the original
+question through the final evidence or action.
 
-### Relationship analysis
+### Start with a sample or upload a CSV
 
-The analyst inspected the Iris dataset, measured pairwise relationships, ran a statistical test,
-grouped measurements by species, and generated this correlation artifact:
+The landing workspace presents the four offline sample datasets alongside CSV upload. Analysis
+controls stay disabled until a dataset is active.
 
-![Correlation heatmap produced by the relationship-analysis scenario](docs/images/correlation-heatmap.png)
+![Dark landing workspace with CSV upload and sample dataset controls](docs/images/01-landing-page.png)
 
-### Baseline classification
+### Watch delegated analysis as it happens
 
-In a follow-up turn, the same session compared dummy, logistic-regression, and random-forest
-classifiers for `target_label`. Logistic regression reached 0.9333 holdout accuracy and the UI
-rendered its metrics and confusion matrix inline:
+For the prompt _“Find the most important relationships in this dataset. Support the findings with
+statistical evidence and create an appropriate visualization,”_ the coordinator delegates to the
+analyst and streams readable progress. The interface shows what is running without exposing raw
+tool payloads or hidden model reasoning.
 
-![Confusion matrix produced by the baseline-model scenario](docs/images/baseline-confusion-matrix.png)
+![Full workspace showing the active Iris dataset and live analysis progress](docs/images/02-live-analysis-progress.png)
 
-Both examples above were generated during a real browser session on the included Iris sample—not
-hand-authored demonstration data. Results are exploratory and can vary when the dataset changes.
+<details>
+<summary>Focused progress view</summary>
+
+![Expanded live progress with delegation, planning, statistical testing, and visualization steps](docs/images/03-live-analysis-progress-detail.png)
+
+</details>
+
+### Receive findings and evidence together
+
+The relationship-analysis answer spans two screenshots: first the statistical findings, then the
+methodological caveats, suggested follow-ups, and generated correlation heatmap.
+
+![Relationship-analysis findings supported by correlations and a statistical test](docs/images/04-relationship-findings.png)
+
+![Continuation of the relationship analysis with caveats and a correlation heatmap](docs/images/05-relationship-heatmap.png)
+
+### Ask grounded follow-up questions
+
+The same session retains dataset context. A follow-up asks which measurements deserve attention
+first, and the agent answers using the earlier analysis rather than restarting from scratch.
+
+![Multi-turn follow-up identifying petal length and petal width as the strongest discriminators](docs/images/06-multiturn-follow-up.png)
+
+### Compare baseline models
+
+The modeling sequence compares a dummy baseline, random forest, and logistic regression; explains
+the strongest features and limitations; and renders the selected model's holdout metrics and
+confusion matrix.
+
+![Model comparison table and ranked feature importance](docs/images/07-model-comparison.png)
+
+<details>
+<summary>Continue through the interpretation and diagnostic chart</summary>
+
+![Model interpretation, non-causal caveats, limitations, and suggested next steps](docs/images/08-model-explanation.png)
+
+![Inline holdout metrics and logistic-regression confusion matrix](docs/images/09-model-metrics-chart.png)
+
+</details>
+
+### Audit data quality before changing data
+
+The audit checks missing values, duplicates, identifier-like fields, and numeric outliers. Its
+answer continues across multiple screenshots so the recommendation and supporting visualization
+remain attached to the original question.
+
+![Data-quality audit covering missing values, duplicates, identifiers, and numeric outliers](docs/images/10-data-quality-audit.png)
+
+<details>
+<summary>Continue through the outlier evidence and recommendation</summary>
+
+![Numeric outlier detail and recommended data-quality actions](docs/images/11-outlier-detail.png)
+
+![Data-quality recommendation with a box plot of sepal-width outliers](docs/images/12-data-quality-chart.png)
+
+</details>
+
+### Require confirmation for transformations
+
+Cleaning tools create a proposal instead of silently mutating the dataset. The confirmation card
+shows the operation and row impact, then lets the user apply or discard the change.
+
+![Duplicate-removal proposal awaiting explicit user confirmation](docs/images/13-cleaning-proposal.png)
+
+The two standalone artifact images below are the original server-rendered chart files from the same
+session, rather than screenshots:
+
+| Correlation heatmap | Classification confusion matrix |
+| --- | --- |
+| ![Server-rendered correlation heatmap](docs/images/correlation-heatmap.png) | ![Server-rendered confusion matrix](docs/images/baseline-confusion-matrix.png) |
+
+Results are exploratory and can vary when the dataset changes.
 
 ## Browser-verified scenarios
 
@@ -94,6 +165,11 @@ The samples are bundled through scikit-learn and work offline:
 | Wine | Multiclass classification |
 | Breast Cancer | Binary classification |
 | Diabetes | Regression |
+
+For the upload workflow, the repository also includes
+[`Aurora_Customer_Churn.csv`](sample_data/Aurora_Customer_Churn.csv), a synthetic 242-row customer
+dataset with an identifier, mixed feature types, a `churned` target, and intentional missing values,
+duplicates, and outliers for demonstrating profiling, cleaning, visualization, and classification.
 
 ## Run locally
 

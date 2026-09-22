@@ -1,0 +1,243 @@
+customer_id,region,plan_type,signup_channel,tenure_months,monthly_spend_usd,support_tickets_90d,avg_weekly_sessions,avg_session_minutes,satisfaction_score,discount_percent,last_active_days,auto_renew,churned
+AUR-0001,South,Basic,Referral,17,19.33,0,9.2,37.4,10,10,3,No,Yes
+AUR-0002,North,Premium,Partner,65,99.76,0,8.7,26.9,10,20,1,Yes,No
+AUR-0003,West,Premium,Referral,28,105.92,4,6.2,19.6,7.9,0,6,Yes,No
+AUR-0004,West,Basic,Organic,20,15.96,5,5,26.4,7.2,10,7,Yes,No
+AUR-0005,North,Premium,Partner,32,91.2,2,4.7,21.9,6.3,15,10,Yes,No
+AUR-0006,West,Premium,Referral,61,88.24,2,8,28.5,8,15,6,Yes,No
+AUR-0007,West,Premium,Organic,28,99.09,5,3.9,18.9,4.7,5,13,Yes,Yes
+AUR-0008,South,Basic,Referral,51,35.17,1,7.7,25.4,7.9,20,11,Yes,Yes
+AUR-0009,South,Plus,Referral,69,85.49,0,7.6,22.8,9,5,4,No,Yes
+AUR-0010,East,Basic,Referral,49,35.81,2,6.3,28,6.1,20,14,Yes,No
+AUR-0011,East,Plus,Organic,40,64.23,0,7.5,26.5,10,10,2,Yes,No
+AUR-0012,North,Basic,Organic,19,27.34,6,5.3,20.5,5.6,15,10,No,Yes
+AUR-0013,East,Plus,Referral,20,40.31,1,7.3,29.6,8,20,4,Yes,No
+AUR-0014,East,Plus,Partner,50,73.66,4,5.2,23.1,7.5,10,10,Yes,Yes
+AUR-0015,West,Basic,Paid Search,71,38.88,1,8,25,8.4,0,9,No,Yes
+AUR-0016,North,Plus,Partner,63,68.65,4,5.9,29,6.7,15,12,Yes,Yes
+AUR-0017,South,Plus,Organic,12,54.57,4,4.1,13.7,5.4,20,17,Yes,Yes
+AUR-0018,North,Premium,Paid Search,33,248.5,1,7.4,31.5,7.3,0,12,Yes,No
+AUR-0019,West,Premium,Paid Search,4,103.79,0,6.1,27.6,9.4,5,1,No,Yes
+AUR-0020,West,Basic,Organic,54,38.57,3,5.7,26.3,6.8,0,5,Yes,No
+AUR-0021,North,Basic,Partner,43,47.46,3,7.6,26.5,7.4,5,11,Yes,Yes
+AUR-0022,East,Premium,Referral,56,99.11,0,6.7,23.3,8.4,5,1,Yes,No
+AUR-0023,South,Basic,Partner,29,36.44,3,5.2,18.1,5.8,10,9,No,No
+AUR-0024,West,Plus,Partner,21,65.48,0,6.5,31.7,8.9,5,0,Yes,No
+AUR-0025,East,Plus,Organic,59,68.29,4,5.2,23.4,6.9,0,6,Yes,Yes
+AUR-0026,West,Plus,Referral,51,,3,6,22.7,8.1,20,4,No,No
+AUR-0027,South,Basic,Paid Search,63,43.7,0,4.7,25.7,7.4,10,7,No,No
+AUR-0028,North,Basic,Paid Search,14,43.04,1,5.6,17.4,8.5,15,2,No,No
+AUR-0029,South,Basic,Organic,24,30.14,0,7.3,25.6,9,0,8,Yes,No
+AUR-0030,West,Plus,Paid Search,42,59.28,3,4.8,22.5,6.8,10,13,No,Yes
+AUR-0031,South,Premium,Partner,45,103.88,4,6.7,24.1,7.2,10,10,Yes,Yes
+AUR-0032,West,Plus,Paid Search,29,66.72,1,6,25.8,8.2,5,6,Yes,No
+AUR-0033,West,Basic,Referral,65,41.9,0,7.6,25.1,9.6,10,7,Yes,No
+AUR-0034,East,Basic,Referral,67,36.99,4,3.8,21.1,5.4,10,12,Yes,Yes
+AUR-0035,South,Plus,Partner,72,72.23,2,8.4,29.5,8.8,10,1,Yes,No
+AUR-0036,North,Plus,Referral,7,64.55,5,5,22.2,5.6,5,17,No,No
+AUR-0037,West,Plus,Referral,36,59.85,0,6.7,22.9,10,15,2,Yes,No
+AUR-0038,South,Basic,Paid Search,41,39.48,2,5.8,26.7,7.4,5,10,Yes,No
+AUR-0039,South,Premium,Partner,46,86.41,3,4.7,16.6,6.1,5,7,Yes,Yes
+AUR-0040,West,Plus,Paid Search,51,79.25,1,7.9,35.3,9.3,15,2,Yes,No
+AUR-0041,South,Plus,Organic,27,60.23,5,4.9,22.8,4.9,5,11,Yes,Yes
+AUR-0042,West,Plus,Paid Search,41,57.54,5,5.4,28,6.2,0,14,Yes,Yes
+AUR-0043,East,Plus,Referral,29,39.37,1,7.6,34.8,9.7,10,0,No,No
+AUR-0044,East,Basic,Partner,67,41.57,0,8,26.8,8.3,5,10,Yes,Yes
+AUR-0045,West,Basic,Referral,4,28.46,3,6.1,27.7,7.8,0,9,Yes,Yes
+AUR-0046,North,Premium,Organic,17,109.58,4,5,25.2,6.9,5,14,Yes,Yes
+AUR-0047,West,Premium,Paid Search,29,105.85,6,5.3,20.8,4.8,5,12,Yes,No
+AUR-0048,North,Plus,Referral,49,55.6,2,7.5,23.5,8.7,20,0,Yes,No
+AUR-0049,South,Basic,Partner,18,32.77,0,5.2,20.3,7.2,15,3,No,No
+AUR-0050,East,Basic,Paid Search,9,23.73,6,5.1,16.5,5.1,20,17,Yes,No
+AUR-0051,East,Premium,Organic,3,97.9,1,5.5,19.2,7,15,9,Yes,No
+AUR-0052,North,Plus,Partner,12,80.71,5,5.3,21.3,,10,11,Yes,Yes
+AUR-0053,North,Basic,Referral,70,28.88,3,4.8,20,7.6,15,6,Yes,No
+AUR-0054,South,Premium,Organic,4,80.07,3,7,31.9,6.7,20,5,Yes,Yes
+AUR-0055,South,Basic,Referral,66,43.52,0,7.3,28.4,7.3,15,7,Yes,No
+AUR-0056,East,Basic,Organic,57,42.25,4,5.9,21.1,7.5,15,4,Yes,No
+AUR-0057,South,Basic,Referral,34,44.16,1,5.8,18.7,9.3,15,1,Yes,No
+AUR-0058,East,Basic,Referral,5,18.05,6,4.3,18.3,3.6,5,21,Yes,Yes
+AUR-0059,North,Plus,Paid Search,66,46.15,4,4,21.8,5.4,10,10,Yes,No
+AUR-0060,South,Plus,Paid Search,20,74.36,3,5.6,17.8,6.8,15,6,No,Yes
+AUR-0061,South,Basic,Paid Search,17,35.41,3,6.5,31,7.4,15,7,Yes,Yes
+AUR-0062,West,Basic,Referral,35,42.24,4,4.9,17.1,4.9,0,14,No,Yes
+AUR-0063,East,Premium,Partner,10,105.33,5,5.6,20.9,7.3,10,5,Yes,No
+AUR-0064,East,Basic,Referral,38,27.89,1,4.7,20.8,7.2,15,13,Yes,Yes
+AUR-0065,West,Plus,Organic,2,67.62,3,6.3,25.4,7.1,15,12,Yes,Yes
+AUR-0066,North,Basic,Organic,63,50.98,0,8,35.7,9.1,0,3,No,No
+AUR-0067,South,Premium,Organic,71,100,3,5.4,18.2,5.3,20,10,Yes,No
+AUR-0068,South,Plus,Paid Search,53,74.05,3,6.6,24.7,6.3,15,9,Yes,No
+AUR-0069,North,Basic,Referral,59,36.93,1,7.6,33.5,7.7,10,10,No,No
+AUR-0070,North,Plus,Partner,2,55.02,6,5.3,26.1,6.3,15,12,No,Yes
+AUR-0071,West,Basic,Referral,4,47.37,4,5.4,20.5,5,0,16,No,Yes
+AUR-0072,North,Plus,Paid Search,25,49.82,1,6.9,32.5,7.2,0,4,Yes,No
+AUR-0073,West,Plus,Paid Search,64,61.07,0,6.7,22.2,7.2,20,11,Yes,Yes
+AUR-0074,South,Plus,,1,58.11,3,4.8,26.1,6.9,0,4,No,Yes
+AUR-0075,North,Premium,Paid Search,17,98.65,3,5.3,18,6.4,0,8,No,Yes
+AUR-0076,East,Basic,Partner,3,28.69,1,7.9,29.9,8.1,5,6,No,No
+AUR-0077,West,Basic,Organic,51,47.71,0,7.5,34,9.5,20,2,Yes,No
+AUR-0078,North,Basic,Paid Search,10,23.66,4,5.3,26.7,5.4,5,17,Yes,Yes
+AUR-0079,North,Plus,Paid Search,46,56.63,0,7.1,23.7,7.6,20,11,Yes,Yes
+AUR-0080,West,Plus,Referral,53,73.7,2,6.3,28.5,6.4,0,14,Yes,No
+AUR-0081,East,Basic,Paid Search,3,25.82,3,5.3,26.2,8.5,15,9,Yes,No
+AUR-0082,North,Plus,Organic,70,61.98,0,7.4,26.2,7.4,20,13,Yes,No
+AUR-0083,North,Plus,Partner,46,72,5,3.1,14.5,4.3,10,16,Yes,Yes
+AUR-0084,West,Plus,Partner,46,64.32,0,7.6,29.6,8.1,20,11,Yes,No
+AUR-0085,South,Basic,Paid Search,62,48.51,4,4.4,22.7,6.4,10,9,Yes,No
+AUR-0086,East,Basic,Referral,22,17.86,2,5.4,22.2,7.2,15,13,Yes,No
+AUR-0087,East,Basic,Paid Search,62,33.17,0,6.5,27.3,10,15,3,Yes,No
+AUR-0088,South,Basic,Partner,13,21.28,3,4.4,14.6,6.5,20,12,Yes,No
+AUR-0089,East,Plus,Referral,32,67.55,14,4.3,25.1,6.3,0,8,Yes,Yes
+AUR-0090,East,Premium,Referral,15,94.05,3,5.4,22.2,7.4,10,11,No,No
+AUR-0091,East,Premium,Partner,13,91.33,2,7,25.3,9,5,8,Yes,No
+AUR-0092,North,Basic,Partner,3,36.08,5,4.8,23.4,4.2,10,14,No,Yes
+AUR-0093,West,Premium,Paid Search,20,76.74,4,5.4,27.1,6.6,5,9,Yes,No
+AUR-0094,West,Plus,Partner,72,57.1,0,7.7,33.1,9.4,10,8,Yes,No
+AUR-0095,North,Basic,Organic,51,26.15,4,4.8,16.6,5.9,0,16,Yes,No
+AUR-0096,East,Basic,Referral,10,32.8,0,5.1,15.4,7.8,20,4,No,Yes
+AUR-0097,East,Basic,Referral,7,20.71,0,8.3,26.8,9.8,10,6,Yes,No
+AUR-0098,North,Plus,Referral,16,53.08,2,5.8,21.8,7.6,5,12,Yes,No
+AUR-0099,South,Plus,Referral,59,56.36,3,5.3,26.8,8,15,3,Yes,No
+AUR-0100,East,Plus,Partner,50,61.01,0,6.8,32.7,7.3,15,13,Yes,No
+AUR-0101,West,Basic,Partner,66,42.14,4,4.5,26.3,7.1,10,11,Yes,Yes
+AUR-0102,North,Plus,Referral,50,80.94,0,7.6,22.6,8.7,10,6,Yes,No
+AUR-0103,North,Premium,Partner,11,,0,5.6,23,7.8,5,10,Yes,Yes
+AUR-0104,South,Premium,Partner,8,98.16,2,7.8,31.8,9,15,6,Yes,No
+AUR-0105,North,Basic,Referral,70,50.21,0,6.6,23.6,8.2,20,6,Yes,No
+AUR-0106,South,Basic,Paid Search,35,29.59,4,4,14.3,4.8,0,18,Yes,Yes
+AUR-0107,West,Plus,Referral,40,56.54,0,7.6,27.3,9,15,4,No,No
+AUR-0108,South,Basic,Partner,6,29.89,0,6.1,25.7,9.2,5,3,Yes,No
+AUR-0109,South,Basic,Partner,55,42.96,0,7.9,32.2,9.7,15,7,Yes,No
+AUR-0110,North,Plus,Partner,63,59.01,0,7.1,23.7,7.3,10,5,Yes,No
+AUR-0111,North,Basic,Organic,12,9.42,3,5.1,17.9,6.2,5,6,Yes,No
+AUR-0112,North,Plus,Referral,40,53.65,2,6.5,22.9,9,10,5,No,Yes
+AUR-0113,West,Premium,Partner,2,104.01,4,4.5,24.9,6.7,15,6,Yes,No
+AUR-0114,South,Basic,Referral,33,28.92,0,6.5,19.4,8.8,20,9,Yes,No
+AUR-0115,West,Basic,Paid Search,25,26.65,4,7.3,30.3,7.7,20,9,Yes,No
+AUR-0116,South,Premium,Referral,50,97.31,0,7.5,30.7,7.6,0,12,Yes,No
+AUR-0117,West,Premium,Organic,56,96,1,7.9,32.1,8.4,15,4,Yes,No
+AUR-0118,North,Premium,Referral,2,94.03,3,5,22.1,7.6,0,4,Yes,No
+AUR-0119,East,Basic,Organic,52,20.67,3,5.7,29.4,6.6,10,12,No,No
+AUR-0120,East,Plus,Referral,68,61.79,3,7.1,32.5,7,10,8,Yes,Yes
+AUR-0121,North,Basic,Organic,19,51.33,0,6.2,24.4,9.1,0,8,Yes,No
+AUR-0122,East,Plus,Organic,46,70.92,0,6.7,20.5,7.9,20,9,Yes,No
+AUR-0123,East,Plus,Organic,13,69.87,4,5.4,20.3,7.2,10,11,Yes,No
+AUR-0124,West,Premium,Paid Search,71,83.63,0,7.4,25.9,9.9,10,0,Yes,No
+AUR-0125,East,Plus,Partner,70,76.78,3,6.5,26.8,8.2,20,7,Yes,No
+AUR-0126,North,Plus,Partner,43,48.05,1,7.7,23.5,9.2,20,8,Yes,No
+AUR-0127,East,Basic,Paid Search,59,37.72,0,6,22.8,8.5,20,7,Yes,No
+AUR-0128,North,Premium,Partner,55,93.27,4,7.2,29.6,7.8,20,8,Yes,No
+AUR-0129,East,Basic,Paid Search,46,39.04,1,7.3,31.6,9.8,0,2,No,No
+AUR-0130,West,Plus,Partner,35,53.91,0,6.3,24,8.9,10,4,Yes,No
+AUR-0131,West,Basic,Organic,2,28.19,5,6.4,31.3,6.9,5,10,Yes,Yes
+AUR-0132,West,Premium,Paid Search,33,95.74,1,6.3,28.3,6.9,15,9,No,No
+AUR-0133,East,Basic,Paid Search,20,32.8,0,5.7,17,9.1,15,7,Yes,No
+AUR-0134,South,Premium,Organic,7,86.21,4,6.3,19.1,6.9,0,5,Yes,No
+AUR-0135,South,Premium,Organic,30,92.4,3,4.2,14.6,5.6,0,16,Yes,Yes
+AUR-0136,South,Basic,Partner,36,29.77,1,5.4,25.4,8.6,0,6,No,No
+AUR-0137,West,Basic,Organic,10,30.35,4,5.7,22.7,6.9,5,14,No,No
+AUR-0138,North,Plus,Partner,35,60.55,1,7,23.3,9,20,8,No,No
+AUR-0139,South,Basic,Partner,62,53.58,3,5.7,19.6,5.7,0,8,No,Yes
+AUR-0140,South,Premium,Organic,41,93.89,3,6.6,32.1,6.1,0,9,Yes,Yes
+AUR-0141,West,Plus,Organic,51,56.54,5,4.1,20.2,5.7,20,16,Yes,No
+AUR-0142,East,Plus,Paid Search,70,69.55,2,6,24,7.9,20,2,No,Yes
+AUR-0143,South,Plus,Partner,35,72.67,3,4.5,23.9,6.3,0,8,Yes,No
+AUR-0144,North,Basic,Organic,44,37.57,5,6.6,21.9,6.7,0,13,No,Yes
+AUR-0145,East,Basic,Organic,53,37.19,4,6.8,21,6.2,20,9,Yes,Yes
+AUR-0146,West,Basic,Partner,8,34.38,3,4.9,22.7,6.1,20,8,No,Yes
+AUR-0147,South,Premium,Organic,48,107.29,5,6.1,27.1,5,15,13,No,Yes
+AUR-0148,South,Premium,Organic,58,102.8,1,6.1,20.9,8.4,5,1,No,No
+AUR-0149,East,Basic,Referral,16,17.87,5,5.5,28.3,5.3,0,15,No,Yes
+AUR-0150,South,Plus,Referral,52,54.02,0,8.7,32.6,10,10,0,Yes,No
+AUR-0151,North,Premium,Partner,2,108.91,4,6.8,20.3,7.5,0,12,Yes,No
+AUR-0152,East,Basic,Partner,42,41.38,5,5.2,18.4,6.8,5,12,Yes,Yes
+AUR-0153,South,Premium,Organic,29,101.64,2,6,21.8,6.5,20,9,Yes,No
+AUR-0154,East,Premium,Referral,61,90,0,5.5,25.5,8,10,61,No,Yes
+AUR-0155,East,Plus,Referral,30,59.28,0,5.4,17.4,7.8,10,6,Yes,No
+AUR-0156,North,Plus,Paid Search,46,55.97,2,7.4,29.1,7.2,10,6,Yes,Yes
+AUR-0157,West,Basic,Partner,57,27.73,1,4.9,23.8,6.9,5,7,Yes,Yes
+AUR-0158,North,Plus,Partner,58,52.89,3,6,23.8,8.4,0,9,Yes,No
+AUR-0159,East,Plus,Partner,71,64.71,1,6.8,26,8.4,10,7,Yes,No
+AUR-0160,East,Premium,Referral,64,106.67,1,6.3,30.8,6.8,15,13,Yes,No
+AUR-0161,South,Plus,Organic,10,58,0,6,28,9.2,10,1,No,No
+AUR-0162,West,Basic,Paid Search,11,24.84,0,4.9,23,7.6,0,8,Yes,No
+AUR-0163,East,Premium,Organic,7,88.74,5,3.9,12,6.2,10,14,Yes,Yes
+AUR-0164,East,Basic,Referral,39,37.89,0,4.9,17.3,7.3,20,6,Yes,No
+AUR-0165,South,Basic,Partner,30,37.55,2,5.6,23.4,7.5,0,9,Yes,No
+AUR-0166,East,Premium,Referral,51,109.86,0,7,23.7,7.3,20,11,Yes,No
+AUR-0167,North,Premium,Partner,26,89.52,4,4.2,22.7,5.6,5,11,No,Yes
+AUR-0168,West,Plus,Referral,1,62.19,3,5.2,21.8,7.7,15,7,Yes,No
+AUR-0169,East,Plus,Partner,64,60.89,0,5.9,18.9,9.2,0,6,Yes,No
+AUR-0170,East,Premium,Referral,38,86.65,1,4.8,21.8,7.2,15,8,Yes,No
+AUR-0171,West,Basic,Partner,47,19.26,2,5,15.7,7.6,5,11,No,No
+AUR-0172,North,Basic,Organic,72,49.21,0,8.8,27.8,9.9,15,3,No,No
+AUR-0173,West,Premium,Paid Search,3,91.94,2,6.6,19.6,6.9,0,9,Yes,Yes
+AUR-0174,South,Basic,Organic,66,52.58,2,6.6,20.5,7.4,10,4,Yes,No
+AUR-0175,North,Premium,Paid Search,8,84.1,5,5.8,23.6,,20,7,Yes,Yes
+AUR-0176,South,Plus,Paid Search,31,73.34,0,7.2,33.8,8,10,3,No,No
+AUR-0177,South,Plus,Paid Search,46,51.56,3,5.7,29.4,8.5,20,9,Yes,Yes
+AUR-0178,East,Basic,Paid Search,31,30.82,1,7.3,29,9.1,15,1,Yes,No
+AUR-0179,North,Plus,Paid Search,7,57.47,1,5.5,28.1,8.4,0,4,No,No
+AUR-0180,South,Basic,Paid Search,35,38.5,1,5.6,26,6.9,5,11,Yes,No
+AUR-0181,East,Plus,Organic,49,61.39,3,4.6,25.1,6.7,0,5,Yes,Yes
+AUR-0182,East,Basic,Organic,64,34.39,0,8.5,25.8,8.9,5,4,Yes,No
+AUR-0183,South,Plus,Referral,17,70.8,3,5.5,20.9,8.1,5,10,Yes,No
+AUR-0184,South,Basic,Organic,44,33.67,3,7.4,28.6,8.1,10,4,Yes,No
+AUR-0185,South,Basic,Referral,28,20.34,5,3.7,23.7,5.9,0,12,No,No
+AUR-0186,South,Plus,Partner,24,59.83,0,6.5,30.3,7.9,5,3,Yes,No
+AUR-0187,West,Basic,Partner,29,34.27,0,7.8,24.8,9.4,15,1,Yes,No
+AUR-0188,East,Basic,Paid Search,34,38.19,0,7.6,33.7,7.7,10,12,No,Yes
+AUR-0189,East,Premium,Referral,20,80.62,0,6.3,26.8,9.3,0,0,Yes,Yes
+AUR-0190,East,Basic,Paid Search,7,33.82,5,6.5,24.7,6.1,10,9,Yes,No
+AUR-0191,East,Basic,Organic,50,28.44,0,7.3,33.3,8.5,0,5,No,No
+AUR-0192,West,Basic,Paid Search,2,21.7,0,7.2,25.6,10,10,0,Yes,No
+AUR-0193,South,Basic,Organic,6,24.85,3,4.7,23,5.9,20,13,No,Yes
+AUR-0194,West,Basic,Paid Search,53,30.5,1,6.2,25.3,9.1,15,5,No,No
+AUR-0195,East,Plus,Partner,37,66.36,5,5.4,22.1,6.1,15,11,Yes,Yes
+AUR-0196,West,Basic,Organic,32,36.98,5,4.9,25.8,5.1,5,17,No,Yes
+AUR-0197,North,Basic,Partner,59,40.73,1,7.3,33.9,9.2,5,4,No,No
+AUR-0198,North,Premium,Organic,3,111.67,6,4.1,15.2,3.5,15,22,Yes,No
+AUR-0199,West,Basic,Paid Search,34,37.24,5,5.3,27.1,4.8,5,18,Yes,Yes
+AUR-0200,West,Plus,Referral,12,52.05,2,7,26.9,8.4,0,7,Yes,No
+AUR-0201,East,Basic,Organic,51,37.25,0,8.2,34,9.2,10,1,No,No
+AUR-0202,West,Plus,Organic,7,62.23,5,6.4,28,6.8,0,7,Yes,Yes
+AUR-0203,North,Plus,Referral,32,59.26,1,5.4,22.2,7.4,5,4,Yes,No
+AUR-0204,North,Premium,Paid Search,63,100.36,2,7,29.8,8.9,20,8,Yes,No
+AUR-0205,East,Plus,Paid Search,20,57.8,6,6,25.1,5.9,20,12,No,Yes
+AUR-0206,East,Basic,,14,28.44,3,4.3,20.2,5.5,5,17,Yes,No
+AUR-0207,North,Premium,Partner,39,97.16,4,3.5,21.6,5,20,10,Yes,Yes
+AUR-0208,South,Basic,Partner,36,14.25,4,6.4,20.7,6.9,5,12,Yes,Yes
+AUR-0209,East,Premium,Paid Search,19,99.96,3,5,27.7,7.6,5,5,Yes,No
+AUR-0210,West,Plus,Organic,65,65.59,0,6.8,26.4,9.4,20,3,Yes,No
+AUR-0211,East,Premium,Partner,11,98.81,6,4.7,24.4,4.6,15,19,Yes,Yes
+AUR-0212,East,Basic,Organic,17,29.88,3,6.4,27.2,6.2,10,9,Yes,No
+AUR-0213,West,Premium,Referral,47,99.11,1,6.6,32.3,7.3,5,11,Yes,No
+AUR-0214,West,Basic,Referral,1,18.49,3,3.6,19.1,5.5,10,14,No,Yes
+AUR-0215,North,Basic,Paid Search,64,38.38,2,6.6,24.5,8.8,15,0,Yes,No
+AUR-0216,West,Basic,Partner,36,31.81,1,6.7,24.7,6.7,15,8,No,No
+AUR-0217,South,Plus,Partner,50,59.56,0,7.5,32.2,8.1,5,7,Yes,No
+AUR-0218,East,Premium,Partner,44,103.01,1,5.6,17.9,8.6,20,6,No,No
+AUR-0219,North,Plus,Paid Search,44,72.96,0,6.7,19.9,9.7,20,7,No,Yes
+AUR-0220,South,Basic,Organic,72,26.94,2,7.5,31.7,8.1,10,10,Yes,No
+AUR-0221,East,Basic,Partner,64,44.34,1,7,32,6.9,10,8,No,No
+AUR-0222,West,Plus,Organic,72,59.61,0,5.4,22.7,8.1,15,7,No,No
+AUR-0223,West,Plus,Partner,33,52.58,0,5.9,20.6,8.5,5,7,No,No
+AUR-0224,North,Basic,Partner,47,25.4,0,5.2,20.8,7.5,20,7,Yes,No
+AUR-0225,West,Plus,Organic,71,63.25,1,6.4,31,7.1,15,6,Yes,No
+AUR-0226,South,Basic,Referral,52,33.27,5,3.3,18,4.2,20,13,No,Yes
+AUR-0227,West,Premium,Organic,58,102.92,4,5.7,28.3,5.8,5,8,Yes,No
+AUR-0228,East,Premium,Paid Search,47,108.32,0,7.1,23.2,8.7,20,7,Yes,No
+AUR-0229,North,Basic,Referral,71,44.85,1,4.6,25.8,7.2,20,6,No,No
+AUR-0230,West,Plus,Referral,44,60.22,3,5.5,21.2,5.8,15,9,Yes,No
+AUR-0231,South,Premium,Referral,19,112.26,3,5.1,28.1,6.8,10,13,Yes,No
+AUR-0232,North,Basic,Paid Search,31,37.52,3,6.3,22.4,6,15,13,Yes,No
+AUR-0233,South,Plus,Paid Search,9,65.26,1,5.2,15.7,7.1,0,4,Yes,Yes
+AUR-0234,West,Basic,Organic,51,27.91,3,6.3,20.1,5.9,15,14,Yes,No
+AUR-0235,South,Plus,Organic,52,62.88,2,7.7,34.4,8.6,5,4,Yes,No
+AUR-0236,North,Basic,Referral,49,42.65,5,5.2,16.6,7.2,0,8,Yes,No
+AUR-0237,West,Basic,Paid Search,65,22.45,1,7.1,29.6,7.6,15,6,No,Yes
+AUR-0238,West,Premium,Referral,23,98.76,5,6.5,23.8,7,5,13,Yes,No
+AUR-0239,North,Plus,Partner,20,65.42,6,4.7,17.6,6.2,0,12,Yes,Yes
+AUR-0240,North,Basic,Paid Search,23,15.84,1,5.7,19.5,8.8,20,5,Yes,No
+AUR-0042,West,Plus,Paid Search,41,57.54,5,5.4,28,6.2,0,14,Yes,Yes
+AUR-0119,East,Basic,Organic,52,20.67,3,5.7,29.4,6.6,10,12,No,No

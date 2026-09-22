@@ -6,7 +6,7 @@
     <meta name="description" content="Explore a dataset through conversation." />
     <meta name="theme-color" content="#141516" />
     <title>Data Science AI Agent</title>
-    <link rel="stylesheet" href="/static/styles.css?v=6" />
+    <link rel="stylesheet" href="/static/styles.css?v=7" />
   </head>
   <body>
     <div class="app-shell">
@@ -106,11 +106,18 @@
             <button id="cancel-button" type="button" class="cancel-button is-hidden">Stop</button>
             <button id="send-button" type="submit" class="send-button" disabled aria-label="Send message">→</button>
           </form>
-          <p class="composer-note">Findings are exploratory. Association does not establish causation.</p>
+          <div class="composer-meta">
+            <span
+              id="usage-status"
+              class="usage-status"
+              title="One submitted analysis message uses one request. Tool calls inside it do not use additional requests."
+            >Analysis requests remaining: 20 of 20</span>
+            <span>Findings are exploratory. Association does not establish causation.</span>
+          </div>
         </footer>
       </main>
     </div>
     <div id="toast" class="toast" role="status"></div>
-    <script src="/static/app.js?v=4" defer></script>
+    <script src="/static/app.js?v=5" defer></script>
   </body>
 </html>

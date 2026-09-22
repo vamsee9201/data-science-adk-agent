@@ -249,7 +249,7 @@ protection.
 | Agent turns per day | 100 per instance | Adds a rolling daily model-usage brake |
 | Concurrent agent turns | 1 per instance | Limits simultaneous Vertex calls |
 | Model output | 2,048 tokens | Bounds individual response size |
-| Turn timeout | 180 seconds | Stops unusually long requests |
+| Turn timeout | 270 seconds | Stops unusually long requests before the platform deadline |
 | Cloud Run scale | Maximum one instance in the recommended deployment | Places a ceiling on compute fan-out |
 
 Additional safeguards:
@@ -345,7 +345,7 @@ Copy `.env.example` when overriding defaults.
 | `MAX_AGENT_TURNS_PER_DAY` | `100` | Rolling daily turns per instance |
 | `MAX_CONCURRENT_AGENT_TURNS` | `1` | Simultaneous model-backed turns per instance |
 | `MAX_MODEL_OUTPUT_TOKENS` | `2048` | Maximum output tokens per model response |
-| `AGENT_TURN_TIMEOUT_SECONDS` | `180` | Deadline for one agent turn |
+| `AGENT_TURN_TIMEOUT_SECONDS` | `270` | Deadline for one agent turn |
 | `ALLOWED_HOSTS` | Local hosts and `*.run.app` | Accepted HTTP Host values |
 | `EXPOSE_API_DOCS` | Local only | Controls `/docs` and `/openapi.json` outside production |
 
@@ -380,7 +380,7 @@ gcloud run deploy data-science-ai-agent \
   --timeout 300 \
   --no-cpu-boost \
   --cpu-throttling \
-  --set-env-vars APP_ENV=production,GOOGLE_CLOUD_PROJECT=PROJECT_ID,GOOGLE_CLOUD_LOCATION=global,GOOGLE_MODEL=gemini-3.8-flash,MAX_UPLOAD_MB=25,MAX_DATASET_ROWS=100000,MAX_DATASET_COLUMNS=200,MAX_ACTIVE_SESSIONS=25,MAX_TURNS_PER_SESSION=20,MAX_AGENT_TURNS_PER_HOUR=30,MAX_AGENT_TURNS_PER_DAY=100,MAX_CONCURRENT_AGENT_TURNS=1,MAX_MODEL_OUTPUT_TOKENS=2048
+  --set-env-vars APP_ENV=production,GOOGLE_CLOUD_PROJECT=PROJECT_ID,GOOGLE_CLOUD_LOCATION=global,GOOGLE_MODEL=gemini-3.8-flash,MAX_UPLOAD_MB=25,MAX_DATASET_ROWS=100000,MAX_DATASET_COLUMNS=200,MAX_ACTIVE_SESSIONS=25,MAX_TURNS_PER_SESSION=20,MAX_AGENT_TURNS_PER_HOUR=30,MAX_AGENT_TURNS_PER_DAY=100,MAX_CONCURRENT_AGENT_TURNS=1,MAX_MODEL_OUTPUT_TOKENS=2048,AGENT_TURN_TIMEOUT_SECONDS=270
 ```
 
 Making the service public allows anonymous visitors to spend Vertex tokens. Do that only after
@@ -394,6 +394,7 @@ setting appropriate Cloud quotas, billing alerts, application limits, and monito
 | Method | Endpoint | Purpose |
 | --- | --- | --- |
 | `POST` | `/api/sessions` | Create a temporary workspace |
+| `POST` | `/api/sessions/replace` | Atomically replace a browser workspace |
 | `DELETE` | `/api/sessions/{id}` | Delete a workspace and its artifacts |
 | `GET` | `/api/samples` | List bundled datasets |
 | `POST` | `/api/sessions/{id}/datasets/upload` | Upload a validated CSV |

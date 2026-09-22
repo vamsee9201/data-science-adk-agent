@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import time
 
 import pytest
@@ -45,6 +46,21 @@ def test_sample_dataset_lifecycle(client: TestClient) -> None:
     assert client.get(f"/api/sessions/{session_id}/dataset").status_code == 404
 
 
+def test_session_replacement_is_atomic_and_retires_previous(client: TestClient) -> None:
+    previous = create_session(client)
+    client.post(f"/api/sessions/{previous}/datasets/sample", json={"sample_id": "iris"})
+
+    response = client.post(
+        "/api/sessions/replace", json={"previous_session_id": previous}
+    )
+    assert response.status_code == 201
+    payload = response.json()
+    assert payload["session_id"] != previous
+    assert payload["usage"] == {"used": 0, "limit": 20, "remaining": 20}
+    assert client.get(f"/api/sessions/{previous}/dataset").status_code == 404
+    assert client.get(f"/api/sessions/{payload['session_id']}/dataset").status_code == 400
+
+
 def test_upload_validation_and_isolation(client: TestClient) -> None:
     first, second = create_session(client), create_session(client)
     response = client.post(
@@ -76,7 +92,31 @@ def test_streamed_chat_and_busy_reset(client: TestClient, monkeypatch: pytest.Mo
     lines = response.text.strip().splitlines()
     assert '"event": "analysis_plan"' in lines[0]
     assert '"event": "message"' in lines[1]
+    assert '"event": "turn_complete"' in lines[2]
+    assert '"remaining": 19' in lines[2]
     assert registry.get(session_id).busy is False
+
+
+def test_explicit_modeling_mismatch_is_blocked_before_agent_turn(
+    client: TestClient, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    session_id = create_session(client)
+    client.post(f"/api/sessions/{session_id}/datasets/sample", json={"sample_id": "iris"})
+
+    async def should_not_run(*_):
+        raise AssertionError("agent should not run for a deterministic target mismatch")
+        yield
+
+    monkeypatch.setattr(agent_runtime, "stream", should_not_run)
+    response = client.post(
+        f"/api/sessions/{session_id}/chat",
+        json={"message": "Build a baseline regression model using target."},
+    )
+    assert response.status_code == 200
+    events = [json.loads(line) for line in response.text.strip().splitlines()]
+    assert [event["event"] for event in events] == ["warning", "message", "turn_complete"]
+    assert events[-1]["status"] == "blocked"
+    assert events[-1]["usage"]["remaining"] == 20
 
 
 def test_expired_session_is_deleted() -> None:
@@ -139,8 +179,14 @@ def test_static_app_is_served(client: TestClient) -> None:
     assert response.status_code == 200
     assert "Data Science AI Agent" in response.text
     assert "Built with Google Agent Development Kit" in response.text
+    assert 'id="usage-status"' in response.text
     assert response.headers["x-frame-options"] == "DENY"
     assert "frame-ancestors 'none'" in response.headers["content-security-policy"]
+
+    script = client.get("/static/app.js?v=5")
+    assert script.status_code == 200
+    assert 'sessionStorage.getItem("dataScienceAgentSessionId")' in script.text
+    assert 'api("/api/sessions/replace"' in script.text
 
 
 def test_api_responses_are_not_cached(client: TestClient) -> None:

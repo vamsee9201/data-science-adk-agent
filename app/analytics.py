@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+import re
 import os
 import tempfile
 import uuid
@@ -458,6 +459,40 @@ def _problem_type(target: pd.Series) -> str:
     return "regression"
 
 
+def modeling_request_preflight(dataframe: pd.DataFrame, message: str) -> dict | None:
+    """Catch explicit target/task mismatches before spending an agent turn.
+
+    This intentionally handles only unambiguous requests. Everything else remains conversational.
+    """
+    lowered = message.casefold()
+    requested_types = [kind for kind in ("classification", "regression") if kind in lowered]
+    if len(requested_types) != 1:
+        return None
+    matched_columns = [
+        str(column)
+        for column in dataframe.columns
+        if re.search(rf"(?<!\w){re.escape(str(column).casefold())}(?!\w)", lowered)
+    ]
+    if len(matched_columns) != 1:
+        return None
+    target = matched_columns[0]
+    detected = _problem_type(dataframe[target].dropna())
+    requested = requested_types[0]
+    if requested == detected:
+        return None
+    distinct = int(dataframe[target].nunique(dropna=True))
+    return {
+        "target": target,
+        "requested_task_type": requested,
+        "detected_task_type": detected,
+        "distinct_values": distinct,
+        "message": (
+            f"Target '{target}' appears to be {detected} ({distinct} distinct values), "
+            f"not {requested}. Confirm {detected} or choose a suitable {requested} target."
+        ),
+    }
+
+
 def _metrics(problem_type: str, truth: pd.Series, prediction: np.ndarray, probabilities=None) -> dict:
     if problem_type == "classification":
         output = {
@@ -482,7 +517,9 @@ def _metrics(problem_type: str, truth: pd.Series, prediction: np.ndarray, probab
     }
 
 
-def train_baseline_model(session: WorkspaceSession, target: str) -> dict:
+def train_baseline_model(
+    session: WorkspaceSession, target: str, task_type: str = "auto"
+) -> dict:
     dataframe = session.require_dataframe()
     _column(dataframe, target)
     frame = dataframe.dropna(subset=[target]).copy()
@@ -515,8 +552,17 @@ def train_baseline_model(session: WorkspaceSession, target: str) -> dict:
     if not feature_columns:
         raise ValueError("No usable feature columns remain after excluding the target and identifiers.")
 
+    if task_type not in {"auto", "classification", "regression"}:
+        raise ValueError("task_type must be auto, classification, or regression.")
+
     features, labels = frame[feature_columns], frame[target]
     problem_type = _problem_type(labels)
+    if task_type != "auto" and task_type != problem_type:
+        distinct = labels.nunique(dropna=True)
+        raise ValueError(
+            f"Target '{target}' appears to be {problem_type} ({distinct} distinct values), "
+            f"not {task_type}. Confirm {problem_type} or choose a suitable {task_type} target."
+        )
     if problem_type == "classification" and labels.nunique() < 2:
         raise ValueError("Classification requires at least two target classes.")
     if problem_type == "classification" and labels.value_counts().min() < 2:

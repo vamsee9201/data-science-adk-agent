@@ -4,6 +4,8 @@ const state = {
   running: false,
   controller: null,
   turn: null,
+  usage: null,
+  replacing: false,
 };
 
 const $ = (selector) => document.querySelector(selector);
@@ -25,14 +27,32 @@ async function api(path, options = {}) {
   if (!response.ok) {
     let detail = `Request failed (${response.status})`;
     try { detail = (await response.json()).detail || detail; } catch (_) {}
-    throw new Error(detail);
+    const retryAfter = Number(response.headers.get("Retry-After") || 0);
+    const error = new Error(retryAfter ? `${detail} Try again in about ${retryAfter} seconds.` : detail);
+    error.status = response.status;
+    error.retryAfter = retryAfter;
+    throw error;
   }
   return response;
 }
 
-async function createSession() {
-  const response = await api("/api/sessions", { method: "POST" });
-  state.sessionId = (await response.json()).session_id;
+function renderUsage(usage) {
+  if (!usage) return;
+  state.usage = usage;
+  const status = $("#usage-status");
+  status.textContent = `Analysis requests remaining: ${usage.remaining} of ${usage.limit}`;
+}
+
+async function replaceSession(previousSessionId = null) {
+  const response = await api("/api/sessions/replace", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ previous_session_id: previousSessionId || null }),
+  });
+  const payload = await response.json();
+  state.sessionId = payload.session_id;
+  window.sessionStorage.setItem("dataScienceAgentSessionId", state.sessionId);
+  renderUsage(payload.usage);
 }
 
 async function loadSamples() {
@@ -380,6 +400,8 @@ function renderEvent(event) {
     const card = addCard("Could not complete analysis", "error");
     const text = document.createElement("p"); text.textContent = event.message; card.append(text);
     state.turn = null;
+  } else if (event.event === "turn_complete") {
+    renderUsage(event.usage);
   }
   scrollToBottom();
 }
@@ -432,16 +454,34 @@ async function resetDataset() {
 }
 
 async function newSession() {
-  if (state.running || (state.dataset && !window.confirm("Start a new temporary session?"))) return;
-  if (state.sessionId) {
-    try { await api(`/api/sessions/${state.sessionId}`, { method: "DELETE" }); } catch (_) {}
+  if (state.replacing) return;
+  const warning = state.running
+    ? "An analysis is still running. Cancel it and start a new temporary session?"
+    : "Start a new temporary session?";
+  if ((state.running || state.dataset) && !window.confirm(warning)) return;
+  state.replacing = true;
+  $("#clear-button").disabled = true;
+  const previousSessionId = state.sessionId;
+  try {
+    if (state.running) {
+      try { await api(`/api/sessions/${previousSessionId}/chat/cancel`, { method: "POST" }); } catch (_) {}
+      state.controller?.abort();
+      finishActivity("cancelled");
+      state.turn = null;
+    }
+    await replaceSession(previousSessionId);
+    state.dataset = null; messages.replaceChildren();
+    $("#welcome").classList.remove("is-hidden"); $("#dataset-card").classList.add("is-hidden");
+    $("#dataset-status").classList.remove("active"); input.disabled = true; sendButton.disabled = true;
+    input.placeholder = "Load a dataset to begin…";
+    document.querySelectorAll(".prompt-card").forEach((button) => button.disabled = true);
+    showToast("New session ready");
+  } catch (error) {
+    showToast(error.message);
+  } finally {
+    state.replacing = false;
+    $("#clear-button").disabled = false;
   }
-  state.dataset = null; state.sessionId = null; messages.replaceChildren();
-  $("#welcome").classList.remove("is-hidden"); $("#dataset-card").classList.add("is-hidden");
-  $("#dataset-status").classList.remove("active"); input.disabled = true; sendButton.disabled = true;
-  input.placeholder = "Load a dataset to begin…";
-  document.querySelectorAll(".prompt-card").forEach((button) => button.disabled = true);
-  await createSession(); showToast("New session ready");
 }
 
 $("#csv-input").addEventListener("change", (event) => uploadCsv(event.target.files[0]));
@@ -464,4 +504,5 @@ document.querySelectorAll(".prompt-card").forEach((button) => {
   button.addEventListener("click", () => sendMessage(button.dataset.prompt));
 });
 
-Promise.all([createSession(), loadSamples()]).catch((error) => showToast(error.message));
+const previousSessionId = window.sessionStorage.getItem("dataScienceAgentSessionId");
+Promise.all([replaceSession(previousSessionId), loadSamples()]).catch((error) => showToast(error.message));

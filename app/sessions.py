@@ -82,10 +82,11 @@ class SessionRegistry:
         self._sessions: dict[str, WorkspaceSession] = {}
         self._lock = threading.RLock()
 
-    def create(self) -> WorkspaceSession:
+    def create(self, *, replacing_session_id: str | None = None) -> WorkspaceSession:
         with self._lock:
             self._cleanup_expired_unlocked(time.time())
-            if len(self._sessions) >= self.max_sessions:
+            replacing_existing = replacing_session_id in self._sessions
+            if len(self._sessions) >= self.max_sessions and not replacing_existing:
                 raise SessionCapacityExceeded(
                     "The workspace is at capacity. Please retry after an inactive session expires."
                 )

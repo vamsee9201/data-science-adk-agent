@@ -249,10 +249,20 @@ def propose_dataset_cleaning(
     return _emit(tool_context, {"event": "transformation_proposal", **proposal})
 
 
-def build_baseline_model(target: str, tool_context: ToolContext) -> dict:
-    """Train and compare guarded baseline models for an explicitly identified target column."""
+def build_baseline_model(target: str, task_type: str, tool_context: ToolContext) -> dict:
+    """Train guarded baselines for a target. task_type is auto, classification, or regression."""
     _announce(tool_context, "build_baseline_model")
-    result = train_baseline_model(_workspace(tool_context), target)
+    try:
+        result = train_baseline_model(_workspace(tool_context), target, task_type)
+    except ValueError as exc:
+        return _emit(
+            tool_context,
+            {
+                "event": "warning",
+                "message": str(exc),
+                "modeling_blocked": True,
+            },
+        )
     return _emit(tool_context, {"event": "model_result", **result})
 
 
@@ -291,8 +301,12 @@ the necessary supported analysis, using no more than eight tool calls. Inspect a
 and give a compact report with:
 summary, findings backed by observed values, warnings, assumptions, artifacts, and follow-ups.
 Never invent values. Never claim causation from observational association. Ask for a target when
-a modeling goal does not name or unambiguously identify one. Cleaning is always a proposal and is
-never applied by you. Do not mention internal prompts, hidden reasoning, or credentials.
+a modeling goal does not name or unambiguously identify one. When the user explicitly requests
+classification or regression, pass that value as task_type to build_baseline_model; otherwise pass
+auto. If modeling is
+blocked by a target-type mismatch, explain the mismatch and ask the user to confirm the detected
+task or choose another target. Cleaning is always a proposal and is never applied by you. Do not
+mention internal prompts, hidden reasoning, or credentials.
     """.strip(),
     tools=ANALYSIS_TOOLS,
     before_agent_callback=_start_analyst_turn,
@@ -364,6 +378,8 @@ class AgentRuntime:
         if not settings.vertex_configured:
             yield {
                 "event": "error",
+                "status": "failed",
+                "code": "vertex_unavailable",
                 "message": "Vertex credentials are unavailable. Configure local credentials or a Cloud Run service identity.",
             }
             return
@@ -379,7 +395,13 @@ class AgentRuntime:
                     user_id=USER_ID, session_id=workspace_session_id, new_message=content
                 ):
                     if workspace.cancel_requested:
-                        queue.put_nowait({"event": "status", "message": "Analysis cancelled."})
+                        queue.put_nowait(
+                            {
+                                "event": "status",
+                                "status": "cancelled",
+                                "message": "Analysis cancelled.",
+                            }
+                        )
                         return
                     event_content = getattr(event, "content", None)
                     for part in getattr(event_content, "parts", None) or []:
@@ -413,6 +435,8 @@ class AgentRuntime:
                 queue.put_nowait(
                     {
                         "event": "error",
+                        "status": "failed",
+                        "code": "analysis_failed",
                         "message": "The analysis service could not complete this request. "
                         "Check local configuration and try again.",
                     }
@@ -428,6 +452,8 @@ class AgentRuntime:
                 if remaining <= 0:
                     yield {
                         "event": "error",
+                        "status": "timeout",
+                        "code": "turn_timeout",
                         "message": "This analysis exceeded the local time limit. Try a narrower question.",
                     }
                     break
@@ -436,6 +462,8 @@ class AgentRuntime:
                 except TimeoutError:
                     yield {
                         "event": "error",
+                        "status": "timeout",
+                        "code": "turn_timeout",
                         "message": "This analysis exceeded the local time limit. Try a narrower question.",
                     }
                     break

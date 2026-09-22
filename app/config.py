@@ -103,7 +103,7 @@ class Settings:
             max_upload_bytes=_int_env("MAX_UPLOAD_MB", 25, maximum=25) * 1024 * 1024,
             session_ttl_seconds=_int_env("SESSION_TTL_MINUTES", 60, maximum=240) * 60,
             agent_turn_timeout_seconds=_int_env(
-                "AGENT_TURN_TIMEOUT_SECONDS", 180, maximum=300
+                "AGENT_TURN_TIMEOUT_SECONDS", 270, maximum=300
             ),
             max_dataset_rows=_int_env("MAX_DATASET_ROWS", 100_000, maximum=500_000),
             max_dataset_columns=_int_env("MAX_DATASET_COLUMNS", 200, maximum=1_000),

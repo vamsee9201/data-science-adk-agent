@@ -13,6 +13,7 @@ from app.analytics import (
     apply_proposal,
     correlation_analysis,
     create_chart,
+    modeling_request_preflight,
     propose_cleaning,
     reset_dataset,
     sort_data,
@@ -75,6 +76,7 @@ def test_usage_guard_limits_and_releases() -> None:
     second = local_registry.create()
     guard = UsageGuard(hourly_limit=2, daily_limit=3, concurrent_limit=1, per_session_limit=1)
     guard.acquire(first)
+    assert guard.snapshot(first) == {"used": 1, "limit": 1, "remaining": 0}
     with pytest.raises(UsageLimitExceeded, match="busy"):
         guard.acquire(second)
     guard.release()
@@ -150,6 +152,30 @@ def test_baseline_model(sample_id: str, target: str, problem: str) -> None:
     if "target_label" in frame:
         assert "target_label" in result["excluded_columns"]
     local_registry.close()
+
+
+def test_baseline_model_rejects_requested_task_mismatch() -> None:
+    local_registry = SessionRegistry()
+    session = local_registry.create()
+    name, frame = load_sample("iris")
+    session.set_dataset(name, frame)
+    with pytest.raises(ValueError, match="appears to be classification.*not regression"):
+        train_baseline_model(session, "target", task_type="regression")
+    assert session.model_results == []
+    local_registry.close()
+
+
+def test_modeling_request_preflight_is_conservative() -> None:
+    _, iris = load_sample("iris")
+    blocked = modeling_request_preflight(
+        iris, "Build a baseline regression model using target."
+    )
+    assert blocked is not None
+    assert blocked["detected_task_type"] == "classification"
+    assert modeling_request_preflight(iris, "Analyze the target.") is None
+    assert modeling_request_preflight(
+        iris, "Build a classification model using target."
+    ) is None
 
 
 @pytest.mark.vertex

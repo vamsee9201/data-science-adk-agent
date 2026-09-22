@@ -71,6 +71,19 @@ class UsageGuard:
         with self._lock:
             self._active = max(0, self._active - 1)
 
+    def snapshot(self, session: WorkspaceSession) -> dict:
+        """Return safe, user-facing usage for this session.
+
+        Global counters are deliberately omitted because they are shared across visitors and
+        reset when a Cloud Run instance restarts.
+        """
+        used = min(session.agent_turns, self.per_session_limit)
+        return {
+            "used": used,
+            "limit": self.per_session_limit,
+            "remaining": max(0, self.per_session_limit - used),
+        }
+
     def reset(self) -> None:
         with self._lock:
             self._turns.clear()

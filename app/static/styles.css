@@ -194,7 +194,11 @@ th, td { max-width: 260px; padding: 8px 9px; overflow: hidden; border-bottom: 1p
 .send-button { width: 37px; height: 37px; cursor: pointer; border: 0; border-radius: 50%; color: white; background: var(--green); font-size: 20px; }
 .send-button:disabled { cursor: not-allowed; opacity: .32; }
 .cancel-button { height: 34px; padding: 0 12px; cursor: pointer; border: 1px solid rgba(239, 107, 103, .35); border-radius: 8px; color: #ff918c; background: rgba(239, 107, 103, .08); font-size: 11px; }
-.composer-note { margin: 8px 0 0; text-align: center; color: #686b72; font-size: 9px; }
+.composer-meta {
+  display: flex; justify-content: space-between; gap: 16px; margin: 8px 2px 0;
+  color: #686b72; font-size: 9px;
+}
+.usage-status { color: #858993; white-space: nowrap; }
 .toast { position: fixed; right: 22px; bottom: 22px; z-index: 10; max-width: 360px; padding: 11px 14px; opacity: 0; pointer-events: none; border: 1px solid var(--line); border-radius: 9px; color: white; background: #292b2f; box-shadow: var(--shadow); font-size: 12px; transform: translateY(8px); transition: 180ms ease; }
 .toast.show { opacity: 1; transform: translateY(0); }
 .is-hidden { display: none !important; }
@@ -216,6 +220,7 @@ th, td { max-width: 260px; padding: 8px 9px; overflow: hidden; border-bottom: 1p
   .prompt-card { min-height: 80px; }
   .prompt-card strong { margin-top: 10px; }
   .composer-wrap { position: sticky; bottom: 0; padding: 12px 14px; }
+  .composer-meta { flex-direction: column; align-items: center; gap: 3px; text-align: center; }
   .event-card, .status-line, .activity-card { margin-left: 43px; }
   .about-panel { left: auto; right: -8px; }
 }

@@ -2,17 +2,13 @@
 
 **A conversational data-science workspace that turns a CSV into an interactive analysis session.**
 
-Upload a dataset—or choose an included sample—then ask questions in plain English. The application
+Upload a dataset or choose an included sample, then ask questions in plain English. The application
 can inspect data quality, calculate statistics, explore relationships, create charts, propose
 cleaning steps, and compare baseline machine-learning models while keeping the work visible and
 grounded in computed results.
 
-Built as a portfolio project with **Google ADK**, **Gemini 3.8 Flash on Vertex AI**, **FastAPI**,
-**pandas**, **SciPy**, and **scikit-learn**.
-
-> The goal is not to replace a data scientist. It is to demonstrate how an AI agent can make a
-> careful, repeatable first pass over a dataset while showing its work and respecting safety
-> boundaries.
+**Tech stack:** Google ADK, Gemini 3.8 Flash on Vertex AI, FastAPI, pandas, NumPy, SciPy,
+scikit-learn, matplotlib, seaborn, HTML, CSS, JavaScript, Docker, and Google Cloud Run.
 
 ## Why I built this
 
@@ -61,7 +57,7 @@ without data.
 
 ### 2. See the agent's work without exposing hidden reasoning
 
-For a broad request—such as finding the most important relationships—the coordinator delegates to
+For a broad request, such as finding the most important relationships, the coordinator delegates to
 the analyst. The interface streams a user-readable plan and live activity labels such as dataset
 inspection, statistical testing, and chart generation.
 
@@ -99,7 +95,7 @@ previous analysis rather than treating the question as a new, disconnected reque
 
 Modeling requires an explicit target. For classification, the application compares a dummy
 baseline with logistic regression and random forest. It reports holdout metrics, feature
-importance, exclusions, caveats, and a confusion matrix—without making deployment or production
+importance, exclusions, caveats, and a confusion matrix without making deployment or production
 readiness claims.
 
 ![Classification model comparison and ranked feature importance](docs/images/07-model-comparison.png)
@@ -138,12 +134,6 @@ apply or discard it. Reset restores the immutable original dataset.
 
 ![Duplicate-removal proposal waiting for user confirmation](docs/images/13-cleaning-proposal.png)
 
-The application also serves generated charts as session-scoped PNG artifacts:
-
-| Correlation heatmap | Classification confusion matrix |
-| --- | --- |
-| ![Server-rendered correlation heatmap](docs/images/correlation-heatmap.png) | ![Server-rendered confusion matrix](docs/images/baseline-confusion-matrix.png) |
-
 ## What makes it an agent?
 
 This is more than a chat interface placed in front of pandas.
@@ -165,7 +155,7 @@ Simple questions can be handled directly by the coordinator. Requests such as �
 dataset,” “what relationships matter most?”, or “build a baseline model” are delegated to the
 specialized analyst agent.
 
-## Architecture, in plain English
+## Architecture
 
 | Layer | Responsibility | Implementation |
 | --- | --- | --- |
@@ -219,9 +209,10 @@ stop working when that session expires or is deleted.
 
 ### Cleaning workflow
 
-Supported proposals include missing-value handling, duplicate removal, type conversion, and
-outlier handling. A proposal reports its expected effect before it can be applied. Rejection leaves
-the active dataframe unchanged, and reset restores the original upload or sample.
+Cleaning uses a preview-and-confirm workflow. The agent can prepare a change for filling missing
+values, removing duplicate rows, converting column types, or handling outliers. It shows what will
+change before touching the active dataset. **Apply** confirms the proposal, **Discard** cancels it,
+and **Reset** restores the original upload or sample.
 
 ### Baseline modeling
 
@@ -432,13 +423,3 @@ RUN_VERTEX_SMOKE=1 uv run pytest -m vertex
 The tests cover CSV validation, profiling, statistics, charts, transformations, modeling,
 session isolation, artifacts, streamed event ordering, cancellation, guardrails, and agent
 routing.
-
-## Current scope
-
-This is a focused, single-user portfolio MVP. It intentionally does not include durable chat
-history, authentication UI, Excel upload, notebooks, a database, arbitrary code execution, or
-multiple simultaneously active datasets.
-
-Uploaded data and generated artifacts are temporary. Exploratory findings and baseline models
-should not be used as the sole basis for consequential decisions, and statistical association
-should not be interpreted as causation.

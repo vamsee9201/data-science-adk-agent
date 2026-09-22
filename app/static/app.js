@@ -35,17 +35,6 @@ async function createSession() {
   state.sessionId = (await response.json()).session_id;
 }
 
-async function checkHealth() {
-  try {
-    const health = await (await api("/api/health")).json();
-    $("#connection-dot").classList.add("connected");
-    $("#connection-label").textContent = health.vertex_configured ? "Vertex ready" : "Agent key missing";
-    $("#model-label").textContent = health.model;
-  } catch (_) {
-    $("#connection-label").textContent = "Backend offline";
-  }
-}
-
 async function loadSamples() {
   const { samples } = await (await api("/api/samples")).json();
   const list = $("#sample-list");
@@ -475,4 +464,4 @@ document.querySelectorAll(".prompt-card").forEach((button) => {
   button.addEventListener("click", () => sendMessage(button.dataset.prompt));
 });
 
-Promise.all([createSession(), loadSamples(), checkHealth()]).catch((error) => showToast(error.message));
+Promise.all([createSession(), loadSamples()]).catch((error) => showToast(error.message));

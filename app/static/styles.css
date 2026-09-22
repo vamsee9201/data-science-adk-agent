@@ -105,11 +105,6 @@ button:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 2
 .column-chips { display: flex; flex-wrap: wrap; gap: 5px; max-height: 92px; overflow: auto; }
 .column-chip { padding: 4px 7px; border: 1px solid rgba(52, 120, 246, .18); border-radius: 5px; background: var(--green-soft); color: #aecdff; font-size: 9px; }
 
-.sidebar-footer { display: flex; align-items: center; gap: 6px; margin-top: auto; padding-top: 20px; color: var(--muted); font-size: 10px; }
-.connection-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--warning); }
-.connection-dot.connected { background: var(--success); }
-.footer-separator { opacity: .5; }
-
 .workspace { display: flex; flex-direction: column; min-width: 0; height: 100vh; }
 .workspace-header { display: flex; align-items: center; justify-content: flex-end; padding: 26px 38px 19px; border-bottom: 1px solid var(--line); }
 .text-button {
@@ -214,7 +209,6 @@ th, td { max-width: 260px; padding: 8px 9px; overflow: hidden; border-bottom: 1p
   .brand { margin-bottom: 20px; }
   .side-section { margin-bottom: 15px; }
   .dataset-card { margin-bottom: 12px; }
-  .sidebar-footer { display: none; }
   .workspace { height: auto; min-height: 70vh; }
   .workspace-header { padding: 20px; }
   .conversation { min-height: 52vh; padding: 30px 18px; }

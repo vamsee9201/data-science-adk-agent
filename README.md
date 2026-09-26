@@ -2,6 +2,8 @@
 
 **A conversational data-science workspace that turns a CSV into an interactive analysis session.**
 
+**Live application:** [Try the Data Science AI Agent](https://data-science-ai-agent-265050340558.us-central1.run.app/)
+
 Upload a dataset or choose an included sample, then ask questions in plain English. The application
 can inspect data quality, calculate statistics, explore relationships, create charts, propose
 cleaning steps, and compare baseline machine-learning models while keeping the work visible and
